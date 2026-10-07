@@ -3,25 +3,12 @@ import json
 import os
 import time
 import boto3
+from dotenv import load_dotenv
 
-try:
-    from dotenv import load_dotenv
 
-    load_dotenv()
-except ImportError:
+load_dotenv()
 
-    def carregar_env(caminho_env=".env"):
-        if os.path.exists(caminho_env):
-            with open(caminho_env, "r", encoding="utf-8") as f:
-                for linha in f:
-                    linha = linha.strip()
-                    if linha and not linha.startswith("#") and "=" in linha:
-                        chave, valor = linha.split("=", 1)
-                        os.environ[chave.strip()] = (
-                            valor.strip().strip('"').strip("'")
-                        )
 
-    carregar_env()
 
 from antena import coletar_metricas_antena
 from firewall import coletar_metricas_firewall
