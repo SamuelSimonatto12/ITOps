@@ -5,30 +5,16 @@ import time
 import boto3
 import pandas as pd
 
-# Carregar variáveis de ambiente
-try:
-    from dotenv import load_dotenv
 
-    load_dotenv()
-except ImportError:
+from dotenv import load_dotenv
 
-    def carregar_env(caminho_env=".env"):
-        if os.path.exists(caminho_env):
-            with open(caminho_env, "r", encoding="utf-8") as f:
-                for linha in f:
-                    linha = linha.strip()
-                    if linha and not linha.startswith("#") and "=" in linha:
-                        chave, valor = linha.split("=", 1)
-                        os.environ[chave.strip()] = (
-                            valor.strip().strip('"').strip("'")
-                        )
+load_dotenv()
 
-    carregar_env()
 
-BUCKET_NAME = os.getenv("S3_BUCKET_NAME", "itops-s3-sptech-samuel")
-PREFIX_BRONZE = os.getenv("PREFIX_BRONZE", "bronze")
-PREFIX_SILVER = os.getenv("PREFIX_SILVER", "silver")
-AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
+BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
+PREFIX_BRONZE = os.getenv("PREFIX_BRONZE")
+PREFIX_SILVER = os.getenv("PREFIX_SILVER")
+AWS_REGION = os.getenv("AWS_REGION")
 
 s3_client = boto3.client("s3", region_name=AWS_REGION)
 
@@ -121,7 +107,7 @@ def processar_camada_silver():
 
     df_antenas = df_antenas.rename(
         columns={
-            "id_antena": "ID_antena",
+            "id_dispositivo": "ID_antena",
             "bytes_sent": "antena_bytes_sent",
             "bytes_recv": "antena_bytes_recv",
             "cpu_usage_pct": "antena_cpu_pct",
