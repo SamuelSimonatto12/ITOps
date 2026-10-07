@@ -1,2 +1,5 @@
 psutil 
 boto3 
+python-dotenv
+pandas
+
